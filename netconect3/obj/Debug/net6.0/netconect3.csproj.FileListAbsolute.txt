@@ -1,0 +1,16 @@
+N:\y2\nyx nea\netconect3\netconect3\bin\Debug\net6.0\netconect3.exe
+N:\y2\nyx nea\netconect3\netconect3\bin\Debug\net6.0\netconect3.deps.json
+N:\y2\nyx nea\netconect3\netconect3\bin\Debug\net6.0\netconect3.runtimeconfig.json
+N:\y2\nyx nea\netconect3\netconect3\bin\Debug\net6.0\netconect3.dll
+N:\y2\nyx nea\netconect3\netconect3\bin\Debug\net6.0\netconect3.pdb
+N:\y2\nyx nea\netconect3\netconect3\obj\Debug\net6.0\netconect3.csproj.AssemblyReference.cache
+N:\y2\nyx nea\netconect3\netconect3\obj\Debug\net6.0\netconect3.GeneratedMSBuildEditorConfig.editorconfig
+N:\y2\nyx nea\netconect3\netconect3\obj\Debug\net6.0\netconect3.AssemblyInfoInputs.cache
+N:\y2\nyx nea\netconect3\netconect3\obj\Debug\net6.0\netconect3.AssemblyInfo.cs
+N:\y2\nyx nea\netconect3\netconect3\obj\Debug\net6.0\netconect3.csproj.CoreCompileInputs.cache
+N:\y2\nyx nea\netconect3\netconect3\obj\Debug\net6.0\netconect3.dll
+N:\y2\nyx nea\netconect3\netconect3\obj\Debug\net6.0\refint\netconect3.dll
+N:\y2\nyx nea\netconect3\netconect3\obj\Debug\net6.0\netconect3.pdb
+N:\y2\nyx nea\netconect3\netconect3\obj\Debug\net6.0\netconect3.genruntimeconfig.cache
+N:\y2\nyx nea\netconect3\netconect3\obj\Debug\net6.0\ref\netconect3.dll
+N:\y2\nyx nea\netconect3\netconect3\obj\Debug\net6.0\netconect3.csproj.ResolveComReference.cache
