@@ -57,7 +57,7 @@ while (true)
 
                 Console.WriteLine("\nenter target ip: ");
                 temp = Console.ReadLine();
-                //t2 = new sockets(Dns.GetHostAddresses(Dns.GetHostName())[0], 5200);
+                //t2 = new sockets(Dns.GetHostAddresses(Dns.GetHostName())[0], 5200);//
                 t2 = new sockets(Dns.GetHostAddresses(temp)[0], 5200);
                 CancellationTokenSource cts = new CancellationTokenSource();
 
