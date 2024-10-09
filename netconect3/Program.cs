@@ -6,36 +6,84 @@ using System.Text;
 //using System.Windows.Forms;
 
 
-
-
-sockets t1;
-new Thread(() => {
-    t1 = new sockets(5200);
-    while (true)
-    {
-        Console.WriteLine(t1.msgdetection(new CancellationTokenSource()));
-    }
-}).Start();
-
-
-sockets t2;
-new Thread(() => {
-    
-    t2 = new sockets(Dns.GetHostAddresses(Dns.GetHostName())[0], 5200);
-    //while (true)
+while (true)
+{
+    //for (int i = 0; i < Dns.GetHostName().Length; i++)
     //{
-    Console.WriteLine(t2.msgdetection(new CancellationTokenSource()));
-    //}
-    while (true)
+        Console.WriteLine(Dns.GetHostName()/*[i]*/);
+   // }
+    Console.WriteLine("\n\n\nenter connect mode <S/R/B> : ");
+    
+    string temp = Console.ReadLine();
+    try
     {
-        t2.sndmsg(Console.ReadLine());
-    }
-}).Start();
+        if (new string[] { "r", "R" ,"b", "B" }.Contains<string>(temp))
+        {
 
+            sockets t1;
+            new Thread(() =>
+            {
+                t1 = new sockets(5200);
+                //while (t1.openport.Connected)
+                //{
+                //    Console.WriteLine(t1.msgdetection(new CancellationTokenSource()));
+                //}
+                CancellationTokenSource cts = new CancellationTokenSource();
+
+                if (t1.openport.Connected)
+                {
+                    new Thread(() => { while (true) { t1.sndmsg(Console.ReadLine()); } }).Start();
+                }
+                while (t1.openport.Connected)
+                {
+                    try
+                    {
+                        Console.WriteLine(t1.msgdetection(cts));
+                    }
+                    catch (Exception e) { Console.WriteLine(e); }
+                }
+                cts.Cancel();
+            }).Start();
+
+        }
+
+        if (new string[] { "s", "S", "b", "B" }.Contains<string>(temp))
+        {
+            sockets t2;
+
+            
+            new Thread(() =>
+            {
+
+                Console.WriteLine("\nenter target ip: ");
+                //t2 = new sockets(Dns.GetHostAddresses(Dns.GetHostName())[0], 5200);
+                t2 = new sockets(Dns.GetHostAddresses(Dns.GetHostName())[0], 5200);
+                CancellationTokenSource cts = new CancellationTokenSource();
+
+                if (t2.openport.Connected)
+                {
+                    new Thread(() => { while (true) { t2.sndmsg(Console.ReadLine()); } }).Start();
+                }
+                while (t2.openport.Connected)
+                {
+                    try
+                    {
+                        Console.WriteLine(t2.msgdetection(cts));
+                    }
+                    catch (Exception e) { Console.WriteLine(e); }
+                }
+                cts.Cancel();
+
+            }).Start();
+        }
+        while (true) { }
+    }
+    catch(Exception e) {  Console.WriteLine(e.ToString()); }
+}
 
 class sockets
 {
-    Socket openport;
+    public Socket openport;
     byte[] buffer;
 
     public sockets(IPAddress iptarg, UInt16 port)
@@ -59,13 +107,13 @@ class sockets
                 // Console.WriteLine((DateTime.Now.Ticks-T));
 
 
-                //if (T < DateTime.Now.Ticks - 50000000)//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH REMOVE LATER
-                //{
-                    
-                //    Console.WriteLine("time out connecting");
-                //    return;
+                if (T < DateTime.Now.Ticks - 50000000)//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH REMOVE LATER
+                {
 
-                //}
+                    Console.WriteLine("time out connecting");
+                    return;
+
+                }
 
             }
             
@@ -119,7 +167,7 @@ class sockets
             Debug.WriteLine(e.ToString());
         }
 
-
+        Console.WriteLine("awaiting conection");
         openport = openport.Accept();
         CancellationTokenSource cantok = new CancellationTokenSource();
         cantok.CancelAfter(5000);
@@ -143,10 +191,14 @@ class sockets
 
         while (!cans.IsCancellationRequested)
         {
-            recmsg = Encoding.UTF8.GetString(buffer, 0, openport.Receive(buffer, SocketFlags.None));
-            if (recmsg != "<ACK>") { openport.Send(Encoding.UTF8.GetBytes("<ACK>")); }
+            try
+            {
+                recmsg = Encoding.UTF8.GetString(buffer, 0, openport.Receive(buffer, SocketFlags.None));
+                if (recmsg != "<ACK>") { openport.Send(Encoding.UTF8.GetBytes("<ACK>")); }
 
-            return recmsg;
+                return recmsg;
+            }
+            catch(Exception e) { Console.WriteLine(e); }
         }
 
         return "<MSG_CANCELATION>";
