@@ -36,7 +36,7 @@ while (true)
                 }
                 while (t1.openport.Connected)
                 {
-                    try
+                    try//
                     {
                         Console.WriteLine(t1.msgdetection(cts));
                     }
